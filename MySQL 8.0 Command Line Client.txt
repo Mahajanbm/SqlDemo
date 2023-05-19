@@ -340,3 +340,435 @@ mysql> select * from tblEmp;
 2 rows in set (0.00 sec)
 
 
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 32
+Server version: 8.0.32 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use fueldemo;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_fueldemo |
++--------------------+
+| tblemp             |
+| tblemployee        |
+| tblorgreg          |
+| tblproduct         |
+| tblstaff           |
+| tblstudent         |
++--------------------+
+6 rows in set (0.09 sec)
+
+mysql> select * from tblemp;
++-----+---------+-------+----------+
+| eId | eName   | eCity | eCountry |
++-----+---------+-------+----------+
+| 101 | mahajan | Hyd   | India    |
+| 102 | joe     | WD    | Us       |
++-----+---------+-------+----------+
+2 rows in set (0.02 sec)
+
+mysql> select * from  tblemployee;
++------+--------+--------+---------+
+| eId  | eName  | eCity  | eSalary |
++------+--------+--------+---------+
+|  101 | Ajay   | Hyd    |   12345 |
+|  102 | Raj    | Pune   |   54654 |
+|  103 | Suyash | Delhi  |   12345 |
+|  104 | Rani   | pune   |    4545 |
+|  105 | Abhay  | Pune   |   54654 |
+|  106 | Dinesh | Mumbai |   89787 |
+|  107 | Mahi   | NULL   |    NULL |
+|  108 | Nani   | NULL   |    4878 |
+|  105 | Abhay  | Pune   |   54654 |
+|  106 | Dinesh | Mumbai |   89787 |
++------+--------+--------+---------+
+10 rows in set (0.00 sec)
+
+mysql> create table tblemp1(eId int primary key,eName varchar(50) not null,eCity va
+rchar(50),eSalary float,eDept varchar(50));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc tblemp1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| eId     | int         | NO   | PRI | NULL    |       |
+| eName   | varchar(50) | NO   |     | NULL    |       |
+| eCity   | varchar(50) | YES  |     | NULL    |       |
+| eSalary | float       | YES  |     | NULL    |       |
+| eDept   | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into tblemp1 values(101,'mahajan','hyd',12345,Dev);
+ERROR 1054 (42S22): Unknown column 'Dev' in 'field list'
+mysql> insert into tblemp1 values(101,'mahajan','hyd',12345,'Dev');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tblemp1 values(102,'joe','hyd',54654,'sales');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tblemp1 values(102,'joe','pune',97855,'Dev');
+ERROR 1062 (23000): Duplicate entry '102' for key 'tblemp1.PRIMARY'
+mysql> insert into tblemp1 values(103,'bob','pune',97855,'Dev');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into tblemp1 values(104,'tom','Mumbai',97855,'Hr');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into tblemp1 values(105,'Mahi','Delhi',12345,'Sales');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into tblemp1 values(106,'nani','Hyd',87872,'Testing');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tblemp1 values(107,'manoj','Hyd',87872,'QA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tblemp1 values(108,'tim','Delhi',87871,'Testing');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into tblemp1 values(109,'john','Mumbai',32163,'Dev');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into tblemp1 values(110,'Ram','Jaipur',45412,'Sales');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> slect * from tblEmp1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from tblEmp1' at line 1
+mysql> select * from tblEmp1;
++-----+---------+--------+---------+---------+
+| eId | eName   | eCity  | eSalary | eDept   |
++-----+---------+--------+---------+---------+
+| 101 | mahajan | hyd    |   12345 | Dev     |
+| 102 | joe     | hyd    |   54654 | sales   |
+| 103 | bob     | pune   |   97855 | Dev     |
+| 104 | tom     | Mumbai |   97855 | Hr      |
+| 105 | Mahi    | Delhi  |   12345 | Sales   |
+| 106 | nani    | Hyd    |   87872 | Testing |
+| 107 | manoj   | Hyd    |   87872 | QA      |
+| 108 | tim     | Delhi  |   87871 | Testing |
+| 109 | john    | Mumbai |   32163 | Dev     |
+| 110 | Ram     | Jaipur |   45412 | Sales   |
++-----+---------+--------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select ecity,count(eCity) as total from tblemp1 group by ecity
+    -> ;
++--------+-------+
+| ecity  | total |
++--------+-------+
+| hyd    |     4 |
+| pune   |     1 |
+| Mumbai |     2 |
+| Delhi  |     2 |
+| Jaipur |     1 |
++--------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select * from tblemp1 where esalary>50000;
++-----+-------+--------+---------+---------+
+| eId | eName | eCity  | eSalary | eDept   |
++-----+-------+--------+---------+---------+
+| 102 | joe   | hyd    |   54654 | sales   |
+| 103 | bob   | pune   |   97855 | Dev     |
+| 104 | tom   | Mumbai |   97855 | Hr      |
+| 106 | nani  | Hyd    |   87872 | Testing |
+| 107 | manoj | Hyd    |   87872 | QA      |
+| 108 | tim   | Delhi  |   87871 | Testing |
++-----+-------+--------+---------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where esalary>=50000;
++-----+-------+--------+---------+---------+
+| eId | eName | eCity  | eSalary | eDept   |
++-----+-------+--------+---------+---------+
+| 102 | joe   | hyd    |   54654 | sales   |
+| 103 | bob   | pune   |   97855 | Dev     |
+| 104 | tom   | Mumbai |   97855 | Hr      |
+| 106 | nani  | Hyd    |   87872 | Testing |
+| 107 | manoj | Hyd    |   87872 | QA      |
+| 108 | tim   | Delhi  |   87871 | Testing |
++-----+-------+--------+---------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where esalary<50000;
++-----+---------+--------+---------+-------+
+| eId | eName   | eCity  | eSalary | eDept |
++-----+---------+--------+---------+-------+
+| 101 | mahajan | hyd    |   12345 | Dev   |
+| 105 | Mahi    | Delhi  |   12345 | Sales |
+| 109 | john    | Mumbai |   32163 | Dev   |
+| 110 | Ram     | Jaipur |   45412 | Sales |
++-----+---------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where esalary<=50000;
++-----+---------+--------+---------+-------+
+| eId | eName   | eCity  | eSalary | eDept |
++-----+---------+--------+---------+-------+
+| 101 | mahajan | hyd    |   12345 | Dev   |
+| 105 | Mahi    | Delhi  |   12345 | Sales |
+| 109 | john    | Mumbai |   32163 | Dev   |
+| 110 | Ram     | Jaipur |   45412 | Sales |
++-----+---------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from tblemp1;
++-----+---------+--------+---------+---------+
+| eId | eName   | eCity  | eSalary | eDept   |
++-----+---------+--------+---------+---------+
+| 101 | mahajan | hyd    |   12345 | Dev     |
+| 102 | joe     | hyd    |   54654 | sales   |
+| 103 | bob     | pune   |   97855 | Dev     |
+| 104 | tom     | Mumbai |   97855 | Hr      |
+| 105 | Mahi    | Delhi  |   12345 | Sales   |
+| 106 | nani    | Hyd    |   87872 | Testing |
+| 107 | manoj   | Hyd    |   87872 | QA      |
+| 108 | tim     | Delhi  |   87871 | Testing |
+| 109 | john    | Mumbai |   32163 | Dev     |
+| 110 | Ram     | Jaipur |   45412 | Sales   |
++-----+---------+--------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' and edept='QA';
++-----+-------+-------+---------+-------+
+| eId | eName | eCity | eSalary | eDept |
++-----+-------+-------+---------+-------+
+| 107 | manoj | Hyd   |   87872 | QA    |
++-----+-------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' and edept='Dev';
++-----+---------+-------+---------+-------+
+| eId | eName   | eCity | eSalary | eDept |
++-----+---------+-------+---------+-------+
+| 101 | mahajan | hyd   |   12345 | Dev   |
++-----+---------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' and edept='sales';
++-----+-------+-------+---------+-------+
+| eId | eName | eCity | eSalary | eDept |
++-----+-------+-------+---------+-------+
+| 102 | joe   | hyd   |   54654 | sales |
++-----+-------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' and edept='hello';
+Empty set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' and edept='hello';
+Empty set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='hyd' or edept='hello';
++-----+---------+-------+---------+---------+
+| eId | eName   | eCity | eSalary | eDept   |
++-----+---------+-------+---------+---------+
+| 101 | mahajan | hyd   |   12345 | Dev     |
+| 102 | joe     | hyd   |   54654 | sales   |
+| 106 | nani    | Hyd   |   87872 | Testing |
+| 107 | manoj   | Hyd   |   87872 | QA      |
++-----+---------+-------+---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity='jaipur' or edept='Dev';
++-----+---------+--------+---------+-------+
+| eId | eName   | eCity  | eSalary | eDept |
++-----+---------+--------+---------+-------+
+| 101 | mahajan | hyd    |   12345 | Dev   |
+| 103 | bob     | pune   |   97855 | Dev   |
+| 109 | john    | Mumbai |   32163 | Dev   |
+| 110 | Ram     | Jaipur |   45412 | Sales |
++-----+---------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> slect * from tblemp1 where eSalary between 30000 and 50000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from tblemp1 where eSalary between 30000 and 50000' at line 1
+mysql> select * from tblemp1 where eSalary between 30000 and 50000;
++-----+-------+--------+---------+-------+
+| eId | eName | eCity  | eSalary | eDept |
++-----+-------+--------+---------+-------+
+| 109 | john  | Mumbai |   32163 | Dev   |
+| 110 | Ram   | Jaipur |   45412 | Sales |
++-----+-------+--------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tblemp1
+    -> ;
++-----+---------+--------+---------+---------+
+| eId | eName   | eCity  | eSalary | eDept   |
++-----+---------+--------+---------+---------+
+| 101 | mahajan | hyd    |   12345 | Dev     |
+| 102 | joe     | hyd    |   54654 | sales   |
+| 103 | bob     | pune   |   97855 | Dev     |
+| 104 | tom     | Mumbai |   97855 | Hr      |
+| 105 | Mahi    | Delhi  |   12345 | Sales   |
+| 106 | nani    | Hyd    |   87872 | Testing |
+| 107 | manoj   | Hyd    |   87872 | QA      |
+| 108 | tim     | Delhi  |   87871 | Testing |
+| 109 | john    | Mumbai |   32163 | Dev     |
+| 110 | Ram     | Jaipur |   45412 | Sales   |
++-----+---------+--------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where eid in(101,102,103);
++-----+---------+-------+---------+-------+
+| eId | eName   | eCity | eSalary | eDept |
++-----+---------+-------+---------+-------+
+| 101 | mahajan | hyd   |   12345 | Dev   |
+| 102 | joe     | hyd   |   54654 | sales |
+| 103 | bob     | pune  |   97855 | Dev   |
++-----+---------+-------+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from tblemp1 where eid in(101,102,107);
++-----+---------+-------+---------+-------+
+| eId | eName   | eCity | eSalary | eDept |
++-----+---------+-------+---------+-------+
+| 101 | mahajan | hyd   |   12345 | Dev   |
+| 102 | joe     | hyd   |   54654 | sales |
+| 107 | manoj   | Hyd   |   87872 | QA    |
++-----+---------+-------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where eid not in(101,102,107);
++-----+-------+--------+---------+---------+
+| eId | eName | eCity  | eSalary | eDept   |
++-----+-------+--------+---------+---------+
+| 103 | bob   | pune   |   97855 | Dev     |
+| 104 | tom   | Mumbai |   97855 | Hr      |
+| 105 | Mahi  | Delhi  |   12345 | Sales   |
+| 106 | nani  | Hyd    |   87872 | Testing |
+| 108 | tim   | Delhi  |   87871 | Testing |
+| 109 | john  | Mumbai |   32163 | Dev     |
+| 110 | Ram   | Jaipur |   45412 | Sales   |
++-----+-------+--------+---------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select ecity ,count(ecity) as total from tblemp1 group by ecity
+    -> ;
++--------+-------+
+| ecity  | total |
++--------+-------+
+| hyd    |     4 |
+| pune   |     1 |
+| Mumbai |     2 |
+| Delhi  |     2 |
+| Jaipur |     1 |
++--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select ecity ,count(ecity) as total from tblemp1 group by ecity where count(
+ecity)>1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where count(ecity)>1' at line 1
+mysql> select ecity ,count(ecity) as total from tblemp1 group by ecity having count(ecity)>1;
++--------+-------+
+| ecity  | total |
++--------+-------+
+| hyd    |     4 |
+| Mumbai |     2 |
+| Delhi  |     2 |
++--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from tblemp1;
++-----+---------+--------+---------+---------+
+| eId | eName   | eCity  | eSalary | eDept   |
++-----+---------+--------+---------+---------+
+| 101 | mahajan | hyd    |   12345 | Dev     |
+| 102 | joe     | hyd    |   54654 | sales   |
+| 103 | bob     | pune   |   97855 | Dev     |
+| 104 | tom     | Mumbai |   97855 | Hr      |
+| 105 | Mahi    | Delhi  |   12345 | Sales   |
+| 106 | nani    | Hyd    |   87872 | Testing |
+| 107 | manoj   | Hyd    |   87872 | QA      |
+| 108 | tim     | Delhi  |   87871 | Testing |
+| 109 | john    | Mumbai |   32163 | Dev     |
+| 110 | Ram     | Jaipur |   45412 | Sales   |
++-----+---------+--------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ename like'm%';
++-----+---------+-------+---------+-------+
+| eId | eName   | eCity | eSalary | eDept |
++-----+---------+-------+---------+-------+
+| 101 | mahajan | hyd   |   12345 | Dev   |
+| 105 | Mahi    | Delhi |   12345 | Sales |
+| 107 | manoj   | Hyd   |   87872 | QA    |
++-----+---------+-------+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from tblemp1 where ename like '%n'
+    -> ;
++-----+---------+--------+---------+-------+
+| eId | eName   | eCity  | eSalary | eDept |
++-----+---------+--------+---------+-------+
+| 101 | mahajan | hyd    |   12345 | Dev   |
+| 109 | john    | Mumbai |   32163 | Dev   |
++-----+---------+--------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ename like '%a%'
+    -> ;
++-----+---------+--------+---------+---------+
+| eId | eName   | eCity  | eSalary | eDept   |
++-----+---------+--------+---------+---------+
+| 101 | mahajan | hyd    |   12345 | Dev     |
+| 105 | Mahi    | Delhi  |   12345 | Sales   |
+| 106 | nani    | Hyd    |   87872 | Testing |
+| 107 | manoj   | Hyd    |   87872 | QA      |
+| 110 | Ram     | Jaipur |   45412 | Sales   |
++-----+---------+--------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity like'_o%'
+    -> ;
+Empty set (0.00 sec)
+
+mysql> select * from tblemp1 where ename like'_o%'
+    -> ;
++-----+-------+--------+---------+-------+
+| eId | eName | eCity  | eSalary | eDept |
++-----+-------+--------+---------+-------+
+| 102 | joe   | hyd    |   54654 | sales |
+| 103 | bob   | pune   |   97855 | Dev   |
+| 104 | tom   | Mumbai |   97855 | Hr    |
+| 109 | john  | Mumbai |   32163 | Dev   |
++-----+-------+--------+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ename like'__l%'
+    -> select * from tblemp1 where ecity like'__l%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from tblemp1 where ecity like'__l%'' at line 2
+mysql> select * from tblemp1 where ecity like'__l%';
++-----+-------+-------+---------+---------+
+| eId | eName | eCity | eSalary | eDept   |
++-----+-------+-------+---------+---------+
+| 105 | Mahi  | Delhi |   12345 | Sales   |
+| 108 | tim   | Delhi |   87871 | Testing |
++-----+-------+-------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tblemp1 where ecity like'%a_';
++-----+-------+--------+---------+-------+
+| eId | eName | eCity  | eSalary | eDept |
++-----+-------+--------+---------+-------+
+| 104 | tom   | Mumbai |   97855 | Hr    |
+| 109 | john  | Mumbai |   32163 | Dev   |
++-----+-------+--------+---------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
